@@ -256,49 +256,59 @@ Yes our circuit operated in the manner that we expected.
  \end{center}
 \end{figure}
 
-For the clocked RSFF
+For the clocked RSFF and DFF:
 
-Everything went well and we successfully get the right truth table
+Everything went well and we successfully get the right truth table as shown above, except that the 74HC03N (four 2-input NAND) doesn't work well. We found that its voltage is about 3V, so either the green light (for low output voltage) nor the red light (for high output voltage) were on. So we use the 74HC10N (3-input NAND) instead (just set the C-input as the high voltage).
 
-\begin{figure}[H]
- \begin{center}
-  \includegraphics[width=\linewidth/1]{act5acapac100Hz}
-  \caption{The front panel of the half-wave rectifier with the capacitor(100Hz).}
-  \label{fig:act5acapac100Hz}
- \end{center}
-\end{figure}
+\vbox{}
 
-\begin{figure}[H]
- \begin{center}
-  \includegraphics[width=\linewidth/1]{act5anocapac100Hz}
-  \caption{The front panel of the half-wave rectifier without the capacitor(100Hz).}
-  \label{fig:act5anocapac100Hz}
- \end{center}
-\end{figure}
+For the clocked TSFF, when $C = 0, Q =\overline{\bar{Q}\cdot 1} = Q$, and the same happens to $\bar{Q}$, so they will not change as S or R change. When C = 1 and $R = S = 0, Q = \overline{\bar{Q}\cdot1} = Q$. But if R and S both change to 1 while C = 1, Q and $\bar{Q}$ all should equal to 1, which does not fit the purpose of the circuit.
+
+\vbox{}
+
+For the DFF, the mechanism of it is same as the clocked TSFF's. When CLK=1, Q=S=DATA.
+
+\vbox{}
+
+For TFF:
+
 
 \begin{figure}[H]
  \begin{center}
-  \includegraphics[width=\linewidth/1]{act5b10Hz4v-6v}
-  \caption{The front panel of the diode clipper(V1=4V, V2=-6V).}
-  \label{fig:act5b10Hz4v-6v}
+  \includegraphics[width=\linewidth/1]{act4_3}
+  \caption{The front panel of the TTF.}
+  \label{fig:act4_3}
  \end{center}
 \end{figure}
 
-\begin{figure}[H]
- \begin{center}
-  \includegraphics[width=\linewidth/1]{act5c10Hzcapac}
-  \caption{The front panel of the full-wave rectifier with the capacitor(10Hz).}
-  \label{fig:act5c10Hzcapac}
- \end{center}
-\end{figure}
+We constructed one and tested it by 1Hz TTL signal. In the first RSFF of the TFF, the first pulse of $CLK_{1}$ changed $Q_{1}$ when $Q_{2}$ keeps its value because $CLK_{2} = CLK_{1} = 0$. After $CLK_{1}$ changes to 0, $CLK_{2} = 1$ so $Q_{2} = Q_{1}$. Therefore $Q_{2}$ flips its value once every CLK period and twice every 2 CLK periods, which means $f_{Q} = \frac{f_{CLK}}{2}$.
+
 
 \begin{figure}[H]
  \begin{center}
-  \includegraphics[width=\linewidth/1]{act5c10Hznocapac}
-  \caption{The front panel of the full-wave rectifier without the capacitor(10Hz).}
-  \label{fig:act5c10Hznocapac}
+  \includegraphics[width=\linewidth/2]{act4_4}
+  \caption{The front panel and the block diagram of the count-to-16 counter.}
+  \label{fig:act4_4}
  \end{center}
 \end{figure}
+
+We used 4 JKFFs to build our count-to-16 circuit. The J and K inputs on each of the JKFFs are set to one, so the JKFFs each act as TFFs. As a result of this, the second JKFF undergoes one toggle in output value for every two toggles of the output of the first JKFF. In this manner, the first LED should flash at the frequency $f_{1} = \frac{f_{CLK}}{2}$ , the second flashes at $f_{2} = \frac{f_{1}}{2}$ and so on. Additionally, for each input clock cycle a binary number is produced by the two cells (JKFFs). For the count-to-16 counter the  numbers  cycle sequentially between 0 and 15.  
+
+\vbox{}
+
+Then we used LabVIEW to record the operation of the shift-register in real-time the LED logic indicators on the 503 board. And we showed the instructor our results. For the shift-register, as shown in the picture below, all JKFFs are initialized with output equal to zero (A=B=C=D=0).  
+Then a pulse (a one) is sent into the Data terminal. On the next positive clock edge, this toggles the output of the first JKFF to one (A=1). The output A is fed into terminal J of the second JKFF. Then on the next 
+positive clock edge, the output of the second JKFF toggles to one (B=1). And so on, until the data is transferred to the end of the register.
+
+\begin{figure}[H]
+ \begin{center}
+  \includegraphics[width=\linewidth/2]{act4_6}
+  \caption{(a)Schematic of a 2-bit binary counter.(b)Schematic of a 4-bit serial shift register.}
+  \label{fig:act4_6}
+ \end{center}
+\end{figure}
+
+
 
 
 

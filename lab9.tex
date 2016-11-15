@@ -308,6 +308,66 @@ positive clock edge, the output of the second JKFF toggles to one (B=1). And so 
  \end{center}
 \end{figure}
 
+\section{Activity V - The 555 Timer and DAQ Counters}
+
+$T=0.693*C(R_{1}+2R_{2})$
+
+$D.C.=(R_{1}+R_{2})/(R_{1}+2R_{2})$
+
+So from the equations above, we can see that if we want to get D.C=50\% we need to let $R_{1}=0$, which means that terminal 7 needs to be directly connected to terminal 8 in LM555. We tried that, but it didn't work. We couldn't get any signal, all we got is noise. After check the data sheet we think that $R_{1}$ can't be zero, the D.C. can only be infinitely close to 50\% but can never be 50\%. 
+
+So in the end we chose $R_{1}=1k\Omega$, $R_{2}=1470k\Omega$, and $C=1\mu F$. By using the equation, the D.C.=62\%, and the expected period $T=0.693*10^{-6}*3940=2.73*10^{-3}=2.73ms$. And from the picture below we can see that the period we got is 2.8ms, which is consistent with what we expected.
+
+\begin{figure}[H]
+ \begin{center}
+  \includegraphics[width=\linewidth/2]{act5_1}
+  \caption{The screen shot of the cycles of the oscillation with duty circle=62\%}
+  \label{fig:act5_1}
+ \end{center}
+\end{figure}
+
+Next we wanted to generate a pulse (or logical low pulse) that is $10 \mu s$ in width and has a repetition frequency of 1000 Hz, which means that the period is $1/1000=1ms$, So the duty circle is 99\%.
+
+$\Rightarrow R_{1}+R_{2}=99\%(R_{1}+2R_{2})=0.99R_{1}+1.98R_{2}$
+
+$\Rightarrow 98R_{2}=R_{1}$
+
+$T=10^{-3}s=0.693*C(R_{1}+2R_{2})=69.3CR_{2}$
+
+$\Rightarrow $ if we choose $C=0.1\mu F$, then $R_{2}\approx144\Omega$
+
+So we chose $R_{2}=140\Omega$ and $R_{1}=14700\Omega$
+
+The screen shot below shows our signal. It's not ideal but it's the furthest we could reach.
+
+\begin{figure}[H]
+ \begin{center}
+  \includegraphics[width=\linewidth/2]{act5_13}
+  \caption{The screen shot of the cycles of the oscillation with duty circle=99\%}
+  \label{fig:act5_13}
+ \end{center}
+\end{figure}
+
+Then we chose $R=1k\Omega$ and $C=0.1\mu F$ to generate as small a pulse-width as possible, so that the $P.W.=1.1*10^{-3}*0.1*10^{-6}=0.11ms=110\mu s$. And we used a 1Hz CLK to trigger it.
+
+\begin{figure}[H]
+ \begin{center}
+  \includegraphics[width=\linewidth/2]{act5_2}
+  \caption{The screen shot of the single-shot pulse generation.}
+  \label{fig:act5_2}
+ \end{center}
+\end{figure}
+
+We would have taken a screen shot to show the signal, and another picture to show the critical value when we can just see the signal clearly (or we can just see the noise), but because of some unknown mistake, only the later one was saved, which is the picture below. Both the rise time and the decay time are extreme short, we couldn't see it in $10\mu s$ scale. And from the picture I guess the overshoot is around 8.80mV, and it has a 100\% sag.
+
+\begin{figure}[H]
+ \begin{center}
+  \includegraphics[width=\linewidth/2]{act5_2b}
+  \caption{The screen shot of the cycles of the oscillation with duty circle=99\%}
+  \label{fig:act5_2b}
+ \end{center}
+\end{figure}
+
 
 
 
